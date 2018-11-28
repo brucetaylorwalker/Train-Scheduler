@@ -8,21 +8,26 @@ var config = {
     projectId: "train-scheduler-634f2",
     storageBucket: "train-scheduler-634f2.appspot.com",
     messagingSenderId: "67768613740"
-  };
-  firebase.initializeApp(config);
+};
+
+firebase.initializeApp(config);
+
+var database = firebase.database();
+
+var trainName = "";
+var destination = "";
+var firstTrain = "";
+var freq = 0;
 
 $("#addTrain").on("click", function (event) {
     event.preventDefault();
 
     //train input
 
-    var trainName = $("#trainName").val().trim();
-    var destination = $("#destination").val().trim();
-    var firstTrain = $("#firstTrain").val().trim();
-    var freq = $("#interval").val().trim();
-
-
-
+    trainName = $("#trainName").val().trim();
+    destination = $("#destination").val().trim();
+    firstTrain = $("#firstTrain").val().trim();
+    freq = $("#interval").val().trim();
 
 
     //code for push
@@ -32,11 +37,48 @@ $("#addTrain").on("click", function (event) {
         destination: destination,
         firstTrain: firstTrain,
         frequency: freq
-    };
+    });
+});
+$("#trainName").val("");
+$("#destination").val("");
+$("#firstTrain").val("");
+$("#interval").val("");
 
-    // //firebase watcher
-    database.ref().on("child_added", function (childSnapshot))
+
+// //firebase watcher
+database.ref().on("child_added", function (childSnapshot) {
+
+    var newTrain = childSnapshot.val().trainName;
+    var newLocation = childSnapshot.val().destination;
+    var newFirstTrain = childSnapshot.val().firstTrain;
+    var newFreq = childSnapshot.val().frequency;
+
+    //moment
+    var startTimeConverted = moment(newFirstTrain, "hh:mm").subtract(1, "years");
+    // var currentTime = moment();
+    var diffTime = moment().diff(moment(startTimeConverted), "minutes");
+    var tRemainder = diffTime % newFreq;
+    var tMinutesTillTrain = newFreq - tRemainder;
+    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+    var catchTrain = moment(nextTrain).format("HH:mm");
+
+    //html
+
+    $("#train-display").append(
+        "<tr><td>" + newTrain +
+        "</td><td>" + newLocation +
+        "</td><td>" + newFreq +
+        "</td><td>" + catchTrain +
+        "</td><td>" + tMinutesTillTrain +
+        "</td></tr>"
+    );
+
+});
+
+
+
+
     // //console.log
 
 
-})
+
