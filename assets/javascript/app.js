@@ -38,12 +38,12 @@ $("#addTrain").on("click", function (event) {
         firstTrain: firstTrain,
         frequency: freq
     });
-});
+
 $("#trainName").val("");
 $("#destination").val("");
 $("#firstTrain").val("");
 $("#interval").val("");
-
+});
 
 // //firebase watcher
 database.ref().on("child_added", function (childSnapshot) {
@@ -64,15 +64,16 @@ database.ref().on("child_added", function (childSnapshot) {
 
     //html
 
-    $("#train-display").append(
-        "<tr><td>" + newTrain +
-        "</td><td>" + newLocation +
-        "</td><td>" + newFreq +
-        "</td><td>" + catchTrain +
-        "</td><td>" + tMinutesTillTrain +
-        "</td></tr>"
-    );
+    var newRow = $("<tr>").append(
+        $("<td>").text(newTrain),
+        $("<td>").text(newLocation),
+        $("<td>").text(newFreq),
+        $("<td>").text(catchTrain),
+        $("<td>").text(tMinutesTillTrain)
+    )
 
+    $("#train-display").append(newRow);
+   
 });
 
 

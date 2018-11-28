@@ -1,4 +1,36 @@
 .jumbotron {
-    margin-top: 30px;
-    
+    margin-top: 10px;
+    background-image: url("../images/xswiss-trains-01.jpg.pagespeed.ic.rehZlxnXIL\ -\ Copy.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-bottom: 60px;
 }
+
+div.container {
+    padding-top: 10px;
+}
+
+div.panel-heading {
+    background-color: darkgray;
+    margin: 0px;
+    padding: 10px;
+    border-bottom: solid 2px black;
+}
+
+div.panel-body {
+    background-color: darkolivegreen;
+    padding: 20px;
+    margin: 0px;
+}
+
+.form-control {
+    background-color:  darkolivegreen;
+    border-color: black;
+}
+
+.btn, .btn:hover  {
+    background-color: black;
+}
+
+
+
